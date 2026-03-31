@@ -1,0 +1,38 @@
+import matplotlib.pyplot as plt
+from pyparsing import alphas
+
+
+def robot_sense_data(sense_data):
+    # 定义安全阈值
+距离 = 0.5
+总和 = 0
+
+    # 遍历数据并输出预警信息
+对于 i 在感应数据中：
+如果 i < 0.2：
+            print("紧急预警：当前距离{:.1f}米，机器人前方有障碍物，请立即停止！".format(i))
+elif i < 距离：
+            print("预警：当前距离{:.1f}米，机器人前方有障碍物".format(i))
+总和 += i
+
+    # 计算并输出统计信息
+最大值 = max(传感器数据)
+最小值 = min(传感器数据)
+平均值 = 总和 / 传感器数据长度
+print("最大值：", 最大值)
+print("最小值：", 最小值)
+print("平均值： {:.1f}".format(平均值))
+
+#创建直观的数据可视化图表
+    plt.figure(figsize=(10,6))
+    plt.plot(sense_data,marker='o',linestyle='-',color='b',label='传感器数据')
+    plt.axhline (y=distance,color='y',linestyle='--',label='安全阈值（0.5）')
+    plt.title("机器人距离随时间的变化",fontsize=20)
+    plt.xlabel ("时间步",fontsize=16)
+    plt.ylabel ("距离（米）",fontsize=16)
+    plt.grid(True,linestyle='--',alpha=0.7)
+    plt.legend ()
+    plt.show()
+
+# 调用函数并传入数据
+robot_sense_data([0.2, 0.5, 0.9, 0.1, 0.4, 0.8, 0.2, 0.6, 0.3, 0.7])
