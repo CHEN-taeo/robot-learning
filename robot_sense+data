@@ -1,0 +1,18 @@
+def robot_sense_date(sense_data):#定义函数
+    distance = 0.5
+    total_sum = 0
+    for i in sense_data:
+        if(i<0.2):
+                print("紧急预警：当前距离{:.1f}米，机器人前方有障碍物，请立即停止！".format(i))
+        elif i<distance:
+            print("预警：当前距离{:.1f}米，机器人前方有障碍物".format(i))
+            
+            
+        total_sum += i
+    MAX = max(sense_data)
+    MIN = min(sense_data)
+    AVG = total_sum/len(sense_data)
+    print("最大值：",MAX)
+    print("最小值：",MIN)
+    print("平均值:  {:.1f}".format(AVG))
+robot_sense_date([0.2,0.5,0.9,0.1,0.4,0.8,0.2,0.6,0.3,0.7])#导入数据
