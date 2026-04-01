@@ -1,0 +1,75 @@
+import matplotlib.pyplot as plt
+import os
+
+
+def robot_sense_data(sense_data, safe_distance=0.5, emergency_distance=0.2):
+    """
+    机器人距离传感器数据处理函数
+    :param sense_data: 传感器数据列表
+    :param safe_distance: 安全距离阈值，默认0.5米
+    :param emergency_distance: 紧急距离阈值，默认0.2米
+    """
+    total_sum = 0
+    emergency_count = 0
+    continue_low_count = 0
+    emergency_stop_triggered = False
+    danger_intervals = []  # 存储危险区间的起始和结束索引
+
+    # 遍历数据并输出预警信息
+    for idx, distance in enumerate(sense_data):
+        total_sum += distance
+
+        # 分级预警
+        if distance < emergency_distance:
+            print(f"紧急预警：当前距离{distance:.1f}米，机器人前方有障碍物，请立即停止！")
+            emergency_count += 1
+            continue_low_count += 1
+        elif distance < safe_distance:
+            print(f"预警：当前距离{distance:.1f}米，机器人前方有障碍物")
+            continue_low_count += 1
+        else:
+            continue_low_count = 0  # 距离安全时重置连续计数
+
+        # 连续3个数据低于安全阈值，触发紧急停车并标记危险区间
+        if continue_low_count >= 3 and not emergency_stop_triggered:
+            emergency_stop_triggered = True
+            print("已多次提醒预警，将停止进程！！！")
+            # 标记危险区间：从连续3个的第一个点到当前点
+            danger_start = idx - 2
+            danger_end = idx
+            danger_intervals.append((danger_start, danger_end))
+
+    # 计算并输出统计信息
+    MAX = max(sense_data)
+    MIN = min(sense_data)
+    AVG = total_sum / len(sense_data)
+    print("\n===== 传感器数据统计结果 =====")
+    print(f"最大值：{MAX} 米")
+    print(f"最小值：{MIN} 米")
+    print(f"平均值：{AVG:.1f} 米")
+
+    # 创建直观的数据可视化图表
+    plt.figure(figsize=(10, 6))
+    plt.plot(sense_data, marker='o', linestyle='-', color='b', label='传感器数据')
+    plt.axhline(y=safe_distance, color='y', linestyle='--', label=f'安全阈值（{safe_distance}米）')
+    plt.axhline(y=emergency_distance, color='r', linestyle=':', label=f'紧急阈值（{emergency_distance}米）')
+
+    # 标记危险区间
+    for start, end in danger_intervals:
+        plt.axvspan(start, end, color='r', alpha=0.3, label='危险区间' if start == danger_intervals[0][0] else "")
+
+    plt.title("机器人距离随时间的变化", fontsize=20)
+    plt.xlabel("时间步", fontsize=16)
+    plt.ylabel("距离（米）", fontsize=16)
+    plt.grid(True, linestyle='--', alpha=0.7)
+    plt.legend(loc='best')
+
+    # 先保存图片，再弹出显示
+    if not os.path.exists('results'):
+        os.makedirs('results')
+    plt.savefig('results/sensor_data_analysis.png', dpi=300, bbox_inches='tight')
+    plt.show()
+
+
+# 调用函数并传入数据
+robot_sense_data([0.2, 0.5, 0.9, 0.1, 0.4, 0.8, 0.2, 0.6, 0.3, 0.7, 0.9, 0.1, 0.1, 0.6])
