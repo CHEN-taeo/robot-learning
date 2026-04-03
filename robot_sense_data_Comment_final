@@ -1,0 +1,76 @@
+# 功能：机器人距离传感器数据处理，分级预警+可视化
+# 作者：陈韬
+# 时间：2026-04-03
+# 名称：robot_sensor_data_numpy.py
+import matplotlib.pyplot as plt # 导入matplotlib绘图库，用于生成可视化折线图
+import os # 导入os模块，用于创建文件夹，管理文件路径
+
+# 传感器数据处理函数
+# 入参：sense_data = 传感器距离数据列表/safe_distance= 安全距离/emergency_distance = 紧急距离阈值
+def robot_sense_data(sense_data, safe_distance=0.5, emergency_distance=0.2):
+
+    total_sum = 0
+    emergency_count = 0
+    continue_low_count = 0
+    emergency_stop_triggered = False # 紧急停车触发标记，默认未触发
+    danger_intervals = []  # 存储危险区间的起始和结束索引
+
+    # 遍历数据并输出预警信息，idx是索引，distance是当前距离值
+    for idx, distance in enumerate(sense_data): # enumerate()函数用于同时获得索引与值，idx为索引，distance为当前距离值
+        total_sum += distance
+
+        # 分级预警
+        if distance < emergency_distance:
+            print(f"紧急预警：当前距离{distance:.1f}米，机器人前方有障碍物，请立即停止！")
+            emergency_count += 1
+            continue_low_count += 1
+        elif distance < safe_distance:
+            print(f"预警：当前距离{distance:.1f}米，机器人前方有障碍物")
+            continue_low_count += 1
+        else:
+            continue_low_count = 0  # 距离安全时重置连续计数
+
+        # 若连续3个数据低于安全阈值且还没有触发紧急停车，触发紧急停车并标记危险区间
+        if continue_low_count >= 3 and not emergency_stop_triggered:
+            emergency_stop_triggered = True
+            print("已多次提醒预警，将停止进程！！！")
+            # 标记危险区间：从连续3个的第一个点到当前点
+            danger_start = idx - 2
+            danger_end = idx
+            danger_intervals.append((danger_start, danger_end)) # append()方法用于向列表末尾添加元素，这里添加一个元组，包含危险区间的起始和结束索引
+
+    # 计算并输出统计信息
+    MAX = max(sense_data)
+    MIN = min(sense_data)
+    AVG = total_sum / len(sense_data)
+    print("\n===== 传感器数据统计结果 =====")
+    print(f"最大值：{MAX} 米")
+    print(f"最小值：{MIN} 米")
+    print(f"平均值：{AVG:.1f} 米")
+
+    # 创建直观的数据可视化图表
+    plt.figure(figsize=(10, 6)) # 创建画布，设置宽10英寸，高6英寸
+    plt.plot(sense_data, marker='o', linestyle='-', color='b', label='传感器数据') # 画实线图，圆点标记，蓝色实线
+    plt.axhline(y=safe_distance, color='y', linestyle='--', label=f'安全阈值（{safe_distance}米）') # 画黄色虚线，安全阈值线
+    plt.axhline(y=emergency_distance, color='r', linestyle=':', label=f'紧急阈值（{emergency_distance}米）') # 画红色点线，紧急阈值线
+
+    # 标记危险区间
+    for start, end in danger_intervals:
+        plt.axvspan(start, end, color='r', alpha=0.3,
+                    label='危险区间' if start == danger_intervals[0][0] else "")  # 红色半透明覆盖危险区间
+
+    plt.title("机器人距离随时间的变化", fontsize=20)  # 设置标题，字号20
+    plt.xlabel("时间步", fontsize=16)  # 设置x轴标签，字号16
+    plt.ylabel("距离（米）", fontsize=16)  # 设置y轴标签，字号16
+    plt.grid(True, linestyle='--', alpha=0.7)  # 显示网格线，虚线，透明度0.7
+    plt.legend(loc='best')  # 自动选择最优位置放图例
+
+    # 保存图片
+    if not os.path.exists('results'):  # 如果results文件夹不存在
+        os.makedirs('results')  # 创建results文件夹
+    plt.savefig('results/sensor_data_analysis.png', dpi=300, bbox_inches='tight')  # 保存图片，分辨率300dpi
+    plt.show()  # 弹出显示图片
+
+
+# 调用函数，传入测试数据
+robot_sense_data([0.2, 0.5, 0.9, 0.1, 0.4, 0.8, 0.2, 0.6, 0.3, 0.7, 0.9, 0.1, 0.1, 0.6])
