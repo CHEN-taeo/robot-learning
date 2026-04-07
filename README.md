@@ -18,7 +18,7 @@
 - **功能**：机器人传感器数据处理进阶版，用numpy库重构基础版代码，大幅提升数据处理效率
 - **核心优化**：
   - 用numpy数组替代原有的Python列表循环
-  - 用numpy内置函数（max/min/mean）实现数据统计，代码更简洁专业
+  -使用numpy内置函数（max/min/mean）实现数据统计，代码更简洁专业
 - **运行方法**：
   - 前置要求：需先安装numpy库，终端运行 `pip install numpy`
   - 直接运行 `python robot_sensor_data_numpy.py` 即可
@@ -41,4 +41,10 @@
   - **自动保存结果**：自动创建`results`文件夹，把可视化图片以300dpi高清格式保存到文件夹里
 - **运行方法**：
   - 前置要求：需先安装matplotlib库，终端运行 `pip install matplotlib`
-  - 直接运行 `python robot_sensor_data_final.py`，即可看到分级预警信息、数据统计结果，同时弹出可视化折线图，图片自动保存到`results`文件夹  
+  - 直接运行 `python robot_sensor_data_final.py`，即可看到分级预警信息、数据统计结果，同时弹出可视化折线图，图片自动保存到`results`文件夹
+ 
+###6. 'Arduino_LED'（4月7日学习的Arduino硬件开发）
+-**功能**：实现开发板上的LED小灯周期性循环，每隔半秒连续闪烁。
+-**运行方式**：
+-前置要求：安装Arduino IED软件，并连接Arduino UNO开发板。
+-直接运行：在Arduino IED软件上，粘贴'Arduino_LED'的C++程序代码后运行
