@@ -43,8 +43,19 @@
   - 前置要求：需先安装matplotlib库，终端运行 `pip install matplotlib`
   - 直接运行 `python robot_sensor_data_final.py`，即可看到分级预警信息、数据统计结果，同时弹出可视化折线图，图片自动保存到`results`文件夹
  
-###6. 'Arduino_LED'（4月7日学习的Arduino硬件开发）
+### 6. 'Arduino_LED'（4月7日学习的Arduino硬件开发）
 -**功能**：实现开发板上的LED小灯周期性循环，每隔半秒连续闪烁。
 -**运行方式**：
 -前置要求：安装Arduino IED软件，并连接Arduino UNO开发板。
 -直接运行：在Arduino IED软件上，粘贴'Arduino_LED'的C++程序代码后运行
+
+7. ardiuno_fading_LED（2026 年 4 月 12 日学习的 Arduino 硬件开发）
+功能：实现 Arduino UNO 开发板上 LED 的呼吸灯效果，通过 PWM（脉冲宽度调制）技术让 LED 亮度从暗到亮、再从亮到暗平滑渐变，模拟自然呼吸的视觉效果。
+核心功能 / 原理：
+引脚定义：使用 Arduino UNO 的 PWM 引脚 9（支持模拟输出的引脚为 3、5、6、9、10、11）
+PWM 控制逻辑：通过数字开关的快速时序控制等效模拟电压，利用人眼暂留效应实现亮度平滑变化（value 范围 0-255，0 = 完全关闭，128=50% 亮度，255 = 完全开启）
+双循环渐变机制：第一个for循环让 LED 亮度从 0 递增到 255（渐亮），第二个for循环让亮度从 255 递减到 0（渐暗），每个步骤延时 1 毫秒确保过渡自然
+现实世界类比理解：模拟（Analog）像可任意调节水流的传统水龙头，数字（Digital）像只有开 / 关两档的开关；PWM 则是通过快速 “开 / 关” 切换，“模拟” 出连续变化的效果
+运行方法：
+前置要求：安装 Arduino IDE 软件，通过 USB 线连接 Arduino UNO 开发板
+直接运行：在 Arduino IDE 中打开ardiuno_fading_LED文件夹下的代码文件，选择正确的开发板型号和端口，点击上传按钮运行代码，即可观察 LED 呼吸灯效果
