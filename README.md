@@ -1,61 +1,31 @@
-# 机器人&具身智能学习记录
-本仓库用来记录我的具身智能、机器人技术学习历程，聚焦**多智能体协同作业**方向，持续更新学习项目、代码实践和成果。
+# Robot Learning
 
-## 已完成内容
-### 1. `number_check.py`
-- **功能**：Python基础语法练习，实现数字正负判断的基础脚本，支持用户输入任意数字，自动判断是正数、负数还是0
-- **运行方法**：直接在终端运行 `python number_check.py`，按提示输入数字即可
+## Project Overview
 
-### 2. `robot_sensor_data.py`
-- **功能**：机器人距离传感器数据处理基础版，实现障碍物风险预警+传感器数据统计功能，贴合机器人真实应用场景
-- **核心功能**：
-  - 循环遍历10个时刻的距离传感器模拟数据
-  - 当距离小于0.5米安全阈值时，触发障碍物预警
-  - 自动计算并输出传感器数据的最大值、最小值、平均值
-- **运行方法**：直接在终端运行 `python robot_sensor_data.py`，即可看到预警信息和数据统计结果
+This repository contains a collection of algorithms and frameworks for robot learning.
 
-### 3. `robot_sensor_data_numpy.py`
-- **功能**：机器人传感器数据处理进阶版，用numpy库重构基础版代码，大幅提升数据处理效率
-- **核心优化**：
-  - 用numpy数组替代原有的Python列表循环
-  -使用numpy内置函数（max/min/mean）实现数据统计，代码更简洁专业
-- **运行方法**：
-  - 前置要求：需先安装numpy库，终端运行 `pip install numpy`
-  - 直接运行 `python robot_sensor_data_numpy.py` 即可
+### 1.1. Introduction
+- Overview of robot learning methodology.
+- Application areas include robot manipulation, navigation, and control.
 
-### 4. `robot_sensor_data_visual.py`（本次更新的新脚本）
-- **功能**：机器人传感器数据处理可视化版，在numpy版基础上增加matplotlib数据可视化功能，直观展示传感器数据变化
-- **核心功能**：
-  - 完整保留障碍物预警、数据统计功能
-  - 用matplotlib画出10个时刻传感器数据的折线图
-  - 自动标注0.5米的安全阈值红线，直观对比危险数据
-- **运行方法**：
-  - 前置要求：需先安装numpy和matplotlib库，终端依次运行
- 
-### 5. `robot_sensor_data_final.py`（本次更新的进阶版脚本）
-- **功能**：机器人距离传感器数据处理最终版，在可视化版基础上增加分级预警、连续危险触发紧急停车、危险区间自动标记功能，完全贴合机器人真实应用场景
-- **核心功能/优化**：
-  - **分级预警机制**：设置0.2米紧急阈值、0.5米安全阈值，分别触发不同级别的预警提示
-  - **连续危险触发停车**：连续3个传感器数据低于安全阈值，自动触发紧急停车预警，同时标记危险区间
-  - **专业可视化**：画出传感器数据折线图，自动标注安全/紧急阈值红线，用红色半透明区域标记危险区间
-  - **自动保存结果**：自动创建`results`文件夹，把可视化图片以300dpi高清格式保存到文件夹里
-- **运行方法**：
-  - 前置要求：需先安装matplotlib库，终端运行 `pip install matplotlib`
-  - 直接运行 `python robot_sensor_data_final.py`，即可看到分级预警信息、数据统计结果，同时弹出可视化折线图，图片自动保存到`results`文件夹
- 
-### 6. 'Arduino_LED'（4月7日学习的Arduino硬件开发）
--**功能**：实现开发板上的LED小灯周期性循环，每隔半秒连续闪烁。
--**运行方式**：
--前置要求：安装Arduino IED软件，并连接Arduino UNO开发板。
--直接运行：在Arduino IED软件上，粘贴'Arduino_LED'的C++程序代码后运行
+### 1.2. Project Goals
+- Enhance learning capabilities of robots.
+- Standardize algorithms for better performance and reliability.
 
-7. ardiuno_fading_LED（2026 年 4 月 12 日学习的 Arduino 硬件开发）
-功能：实现 Arduino UNO 开发板上 LED 的呼吸灯效果，通过 PWM（脉冲宽度调制）技术让 LED 亮度从暗到亮、再从亮到暗平滑渐变，模拟自然呼吸的视觉效果。
-核心功能 / 原理：
-引脚定义：使用 Arduino UNO 的 PWM 引脚 9（支持模拟输出的引脚为 3、5、6、9、10、11）
-PWM 控制逻辑：通过数字开关的快速时序控制等效模拟电压，利用人眼暂留效应实现亮度平滑变化（value 范围 0-255，0 = 完全关闭，128=50% 亮度，255 = 完全开启）
-双循环渐变机制：第一个for循环让 LED 亮度从 0 递增到 255（渐亮），第二个for循环让亮度从 255 递减到 0（渐暗），每个步骤延时 1 毫秒确保过渡自然
-现实世界类比理解：模拟（Analog）像可任意调节水流的传统水龙头，数字（Digital）像只有开 / 关两档的开关；PWM 则是通过快速 “开 / 关” 切换，“模拟” 出连续变化的效果
-运行方法：
-前置要求：安装 Arduino IDE 软件，通过 USB 线连接 Arduino UNO 开发板
-直接运行：在 Arduino IDE 中打开ardiuno_fading_LED文件夹下的代码文件，选择正确的开发板型号和端口，点击上传按钮运行代码，即可观察 LED 呼吸灯效果
+## Installation
+
+```bash
+# clone the repository
+git clone https://github.com/CHEN-taeo/robot-learning.git
+```
+
+## Usage
+- Follow the guidelines below for effective usage:
+  - Implement algorithms as per the guidelines.
+  - Ensure proper setup is maintained.
+
+### 1.3. Contributing 
+- Contributions are welcome! Please follow the standard practices outlined in the CONTRIBUTING.md.
+
+## License
+Use of this project is governed by an MIT License.
