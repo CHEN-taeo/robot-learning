@@ -1,0 +1,29 @@
+//主题：ardiuno呼吸灯开发制作
+//时间：2026.4.12
+//作者：陈韬
+# define   PIN_LED    9     //定义引脚（ardiuno UNO的PWM引脚为：3,5,6,9,10,11）
+void setup(){
+  pinMode(PIN_LED,OUTPUT);  //设置引脚为输出模式（OUTPUT才能提供足够的电流大小点亮LED灯）
+}                           //只执行一次
+//PWM不是真正的模拟电压，而是通过数字开关的时序控制，利用物理系统的惯性（人眼暂留、电机惯性、电容滤波）来等效模拟效果。
+void loop(){
+  for (int i=0;i<256;i++){
+    analogWrite(PIN_LED,i); //analogWrite(pin,value);
+    //value范围：0-255（0=完全关闭；128=50%亮度；255=完全开启）
+    delay(1);               //短暂停留15毫秒
+  }
+  for (int i=255;i>-1;i--){
+    analogWrite(PIN_LED,i); //让引脚PIN_LED输出“模拟”效果
+    //analog(adi/n)==模拟的，类似的。电子技术中的核心含义：连续变化的信号
+    delay(1);               //digital(数字)=只有有限值（通常是0和1）
+  }
+}
+/*
+现实世界类比
+1. 水龙头 vs 开关
+Analog（模拟）：传统水龙头，可以调节任意大小的水流
+Digital（数字）：只有开和关两种状态的水龙头
+2. 音量控制
+Analog：老式收音机的旋钮，可以平滑调节任意音量
+Digital：手机音量键，只有几个固定的档位
+*/
