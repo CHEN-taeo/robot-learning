@@ -1,5 +1,11 @@
 # 🤖 Arduino & Python 嵌入式学习项目
 
+<p align="center">
+  <img src="https://img.shields.io/github/last-commit/CHEN-taeo/robot-learning" alt="Last Commit">
+  <img src="https://img.shields.io/badge/License-MIT-green" alt="License">
+</p>
+
+
 > 作者：陈韬 | 时间：2026.04
 
 ---
@@ -134,3 +140,10 @@ python robot_sensor_data_numpy.py
 2. 理解 PWM 的工作原理及其在亮度控制中的应用
 3. 学会用 Python 处理传感器数据并实现分级预警逻辑
 4. 使用 matplotlib 完成数据可视化，生成带阈值线和危险区间标注的折线图
+
+
+---
+
+## License
+
+MIT
